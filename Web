@@ -1,0 +1,71 @@
+        <p>&copy; 2026 Tripple-T Oasis Purified Drinking Water. All Rights Reserved.</p>
+    </footer>
+<script>
+    // Adjust fields dynamically based on selection
+    function toggleFormFields() {
+        const serviceType = document.getElementById('serviceType').value;
+        const quantityField = document.getElementById('quantityField');
+        const customFields = document.getElementById('customBrandingFields');
+
+        if (serviceType === 'Custom Branding') {
+            customFields.style.display = 'block';
+        } else {
+            customFields.style.display = 'none';
+        }
+    }
+
+    // Helper to extract data and format the order text
+    function buildOrderMessage() {
+        const service = document.getElementById('serviceType').value;
+        const name = document.getElementById('custName').value;
+        const qty = document.getElementById('quantity').value;
+        const details = document.getElementById('eventDetails').value;
+        const loc = document.getElementById('location').value;
+
+        if (!name || !loc) {
+            alert('Please fill out your Name and Delivery Location.');
+            return null;
+        }
+
+        let message = `*NEW ORDER / QUOTE REQUEST*\n`;
+        message += `-----------------------------\n`;
+        message += `*Type:* ${service}\n`;
+        message += `*Client Name:* ${name}\n`;
+        message += `*Delivery Location:* ${loc}\n`;
+        
+        if (service === 'Custom Branding') {
+            message += `*Quantity Requested:* ${qty}\n`;
+            message += `*Event/Branding Details:* ${details}\n`;
+        } else {
+            message += `*Quantity:* ${qty} unit(s)\n`;
+        }
+        
+        return { text: message, rawText: encodeURIComponent(message) };
+    }
+
+    // Send the compiled order straight to WhatsApp
+    function sendToWhatsApp() {
+        const orderData = buildOrderMessage();
+        if (!orderData) return;
+
+        //  +254797855311
+        
+        const whatsappUrl = `https://wa.me/$+254797855311text=${orderData.rawText}`;
+        
+        window.open(whatsappUrl, '_blank');
+    }
+
+    // Open user's email client with standard clean formatting
+    function sendToEmail() {
+        const orderData = buildOrderMessage();
+        if (!orderData) return;
+
+        // Replace with your business email address
+        const businessEmail = "orders@tripplet-oasis.com"; 
+        const subject = encodeURIComponent("Tripple-T Oasis - New Order/Quote Request");
+        const mailtoUrl = `mailto:${businessEmail}?subject=${subject}&body=${orderData.rawText}`;
+        
+        window.location.href = mailtoUrl;
+    }
+</script>
+</body>>/html>
